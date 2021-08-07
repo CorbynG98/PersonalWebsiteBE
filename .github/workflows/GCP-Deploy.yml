@@ -28,8 +28,8 @@ jobs:
         - name: Build Docker image
           run: docker build -f ./PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
 
-        #- name: Push Docker image
-        #  run: docker push $IMAGE_NAME
+        - name: Push Docker image
+         run: docker push $IMAGE_NAME
 
-        #- name: Deploy Docker image
-        #  run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region australia-southeast1 --platform managed
+        - name: Deploy Docker image
+         run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region australia-southeast1 --platform managed
