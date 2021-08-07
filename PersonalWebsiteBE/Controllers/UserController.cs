@@ -23,6 +23,11 @@ namespace PersonalWebsiteBE.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> TestEndpoint() {
+            return Ok("The api can be hit right now!");
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateAsync([FromBody] UserResource userResource)
         {
