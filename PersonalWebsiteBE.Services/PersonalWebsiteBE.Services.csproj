@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PersonalWebsiteBE.Core\PersonalWebsiteBE.Core.csproj" />
+    <ProjectReference Include="..\PersonalWebsiteBE.Repository\PersonalWebsiteBE.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
