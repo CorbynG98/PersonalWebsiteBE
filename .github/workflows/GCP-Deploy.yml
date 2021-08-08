@@ -30,7 +30,8 @@ jobs:
           with:
               files: '**/appsettings.json'
           env:
-              "Sendgrid.ApiKey": ${{ secrets.SendGrid_ApiKey }}
+              "Sendgrid.ApiKey": ${{ secrets.SENDGRID_APIKEY }}
+              "FireStoreSettings.ProjectId": ${{ secrets.GCP_PROJECT_ID }}
 
         - name: Build Docker image
           run: docker build -f ./PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
