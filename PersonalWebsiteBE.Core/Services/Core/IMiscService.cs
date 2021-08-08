@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonalWebsiteBE.Core.Services.Auth
+namespace PersonalWebsiteBE.Core.Services.Core
 {
     public interface IMiscService
     {

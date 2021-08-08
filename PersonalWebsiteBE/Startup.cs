@@ -10,11 +10,12 @@ using PersonalWebsiteBE.Core.Middleware;
 using PersonalWebsiteBE.Core.Repositories.Auth;
 using PersonalWebsiteBE.Core.Repositories.Core;
 using PersonalWebsiteBE.Core.Services.Auth;
+using PersonalWebsiteBE.Core.Services.Core;
 using PersonalWebsiteBE.Core.Settings;
 using PersonalWebsiteBE.Repository.Repositories.Core;
 using PersonalWebsiteBE.Services.Repositories.Auth;
-using PersonalWebsiteBE.Services.Services;
 using PersonalWebsiteBE.Services.Services.Auth;
+using PersonalWebsiteBE.Services.Services.Core;
 using System;
 
 namespace PersonalWebsiteBE
@@ -42,7 +43,10 @@ namespace PersonalWebsiteBE
             services.AddInMemoryRateLimiting();
 
             // Configure appsettings data
-            // services.Configure<IFireStoreSettings>(Configuration.GetSection("FireStoreSettings"));
+            ISendGridSettings sendGrid = new SendGridSettings();
+            Configuration.GetSection("Sendgrid").Bind(sendGrid);
+            services.AddSingleton(sendGrid);
+
             IFireStoreSettings fireStore = new FireStoreSettings();
             Configuration.GetSection("FireStoreSettings").Bind(fireStore);
             services.AddSingleton(fireStore);
@@ -54,10 +58,12 @@ namespace PersonalWebsiteBE
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(ISessionRepository), typeof(SessionRepository));
             services.AddScoped(typeof(IMiscRepository), typeof(MiscRepository));
+            services.AddScoped(typeof(IEmailRepository), typeof(EmailRepository));
 
             // Inject services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMiscService, MiscService>();
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
@@ -65,7 +71,7 @@ namespace PersonalWebsiteBE
             {
                 options.ProjectId = fireStore.ProjectId;
                 options.ServiceName = "personalwebsitebe";
-                options.Version = "1";
+                options.Version = "1.1";
             });
 
             services.AddControllers();

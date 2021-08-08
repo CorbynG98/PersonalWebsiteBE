@@ -25,6 +25,13 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v2
 
+        - name: Token replacement
+          uses: microsoft/variable-substitution@v1 
+          with:
+              files: '**/appsettings.json'
+          env:
+              "Sendgrid.ApiKey": ${{ secrets.SendGrid_ApiKey }}
+
         - name: Build Docker image
           run: docker build -f ./PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
 

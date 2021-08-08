@@ -1,19 +1,9 @@
-﻿using PersonalWebsiteBE.Core.Models.Auth;
-using PersonalWebsiteBE.Core.Services.Auth;
-using PersonalWebsiteBE.Core.Repositories.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PersonalWebsiteBE.Core.Helpers.Security;
-using PersonalWebsiteBE.Core.Exceptions;
-using PersonalWebsiteBE.Core.Constants;
-using PersonalWebsiteBE.Core.Helpers.HelperModels;
+﻿using System.Threading.Tasks;
 using PersonalWebsiteBE.Core.Models.Core;
 using PersonalWebsiteBE.Core.Repositories.Core;
+using PersonalWebsiteBE.Core.Services.Core;
 
-namespace PersonalWebsiteBE.Services.Services
+namespace PersonalWebsiteBE.Services.Services.Core
 {
     public class MiscService : IMiscService
     {

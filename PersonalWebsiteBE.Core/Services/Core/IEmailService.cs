@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PersonalWebsiteBE.Core.Models.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace PersonalWebsiteBE.Core.Services.Core
 {
     public interface IEmailService
     {
+        Task<bool> SendEmail(Email emailData);
     }
 }

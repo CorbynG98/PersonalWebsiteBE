@@ -18,5 +18,9 @@ namespace PersonalWebsiteBE.Core.Models.Core
         public string Subject { get; set; }
         [FirestoreProperty]
         public string Content { get; set; }
+        [FirestoreProperty]
+        public string Status { get; set; }
+        [FirestoreProperty]
+        public string StatusMessage { get; set; }
     }
 }
