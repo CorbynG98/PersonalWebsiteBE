@@ -1,13 +1,19 @@
+using AspNetCoreRateLimit;
+using Google.Cloud.Diagnostics.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PersonalWebsiteBE.Core.Middleware;
 using PersonalWebsiteBE.Core.Repositories.Auth;
+using PersonalWebsiteBE.Core.Repositories.Core;
 using PersonalWebsiteBE.Core.Services.Auth;
 using PersonalWebsiteBE.Core.Settings;
+using PersonalWebsiteBE.Repository.Repositories.Core;
 using PersonalWebsiteBE.Services.Repositories.Auth;
+using PersonalWebsiteBE.Services.Services;
 using PersonalWebsiteBE.Services.Services.Auth;
 using System;
 
@@ -30,6 +36,11 @@ namespace PersonalWebsiteBE
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
             #endif
 
+            services.AddOptions();
+            services.AddMemoryCache();
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            services.AddInMemoryRateLimiting();
+
             // Configure appsettings data
             // services.Configure<IFireStoreSettings>(Configuration.GetSection("FireStoreSettings"));
             IFireStoreSettings fireStore = new FireStoreSettings();
@@ -42,9 +53,20 @@ namespace PersonalWebsiteBE
             // Inject repositories
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(ISessionRepository), typeof(SessionRepository));
+            services.AddScoped(typeof(IMiscRepository), typeof(MiscRepository));
 
             // Inject services
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IMiscService, MiscService>();
+
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+            services.AddGoogleExceptionLogging(options =>
+            {
+                options.ProjectId = fireStore.ProjectId;
+                options.ServiceName = "personalwebsitebe";
+                options.Version = "1";
+            });
 
             services.AddControllers();
         }
@@ -57,16 +79,19 @@ namespace PersonalWebsiteBE
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            app.UseGoogleExceptionLogging();
+
+            app.UseIpRateLimiting();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            // Add error handling middleware
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

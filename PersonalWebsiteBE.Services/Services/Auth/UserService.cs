@@ -78,6 +78,14 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             await sessionRepository.DeleteOneAsync(session.Id);
         }
 
+        public async Task<bool> VerifyUserSession(string sessionToken)
+        {
+            // Find session by session token
+            var session = await sessionRepository.GetSessionByTokenAsync(HashData.GetHashString(sessionToken));
+            if (session == null) return false;
+            return true;
+        }
+
         public async Task DeleteUserAsync() { 
         
         }

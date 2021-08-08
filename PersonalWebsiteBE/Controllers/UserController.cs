@@ -4,6 +4,7 @@ using PersonalWebsiteBE.Core.Exceptions;
 using PersonalWebsiteBE.Core.Helpers.HelperModels;
 using PersonalWebsiteBE.Core.Models.Auth;
 using PersonalWebsiteBE.Core.Services.Auth;
+using PersonalWebsiteBE.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,8 @@ namespace PersonalWebsiteBE.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> TestEndpoint() {
-            return Ok("The api can be hit right now!");
-        }
-
         [HttpPost]
+        [AuthorizationFilter]
         public async Task<ActionResult> CreateAsync([FromBody] UserResource userResource)
         {
             // Convert resource to model
@@ -50,11 +47,12 @@ namespace PersonalWebsiteBE.Controllers
             } catch (UserLoginException ex) {
                 return BadRequest(ex.Message);
             }
-            // Return sessin in 200 response
+            // Return session in 200 response
             return Ok(authData);
         }
 
         [HttpPost("Logout")]
+        [AuthorizationFilter]
         public async Task<ActionResult> LogoutAsync()
         {
             var sessionToken = Request.Headers["SessionToken"].ToString();
@@ -63,12 +61,14 @@ namespace PersonalWebsiteBE.Controllers
         }
 
         [HttpPatch("{id}")]
+        [AuthorizationFilter]
         public async Task UpdateAsync(string id, [FromBody]UserResource userResource)
         {
             // await userService.TestingGoogleFirestore();
         }
 
         [HttpDelete("{id}")]
+        [AuthorizationFilter]
         public async Task DeleteAsync(string id)
         {
             // await userService.TestingGoogleFirestore();

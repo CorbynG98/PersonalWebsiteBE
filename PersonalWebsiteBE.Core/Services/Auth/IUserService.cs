@@ -14,6 +14,7 @@ namespace PersonalWebsiteBE.Core.Services.Auth
         Task UpdateUserAsync();
         Task<AuthData> LoginUserAsync(User userLoginData);
         Task LogoutUserAsync(string sessionToken);
+        Task<bool> VerifyUserSession(string sessionToken);
         Task DeleteUserAsync();
     }
 }
