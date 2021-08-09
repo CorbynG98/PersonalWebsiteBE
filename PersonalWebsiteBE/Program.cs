@@ -21,11 +21,19 @@ namespace PersonalWebsiteBE
             string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
             string url = String.Concat("http://*:", port);
 
+            #if DEBUG
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+            #else
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>().UseUrls(url);
                 });
+            #endif
         }
     }
 }

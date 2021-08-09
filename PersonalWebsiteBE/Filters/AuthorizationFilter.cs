@@ -18,7 +18,7 @@ namespace PersonalWebsiteBE.Filters
         {
             var userService = (IUserService)actionContext.HttpContext.RequestServices.GetService(typeof(IUserService));
             // Try get the session token from header of request
-            var sessionToken = actionContext.HttpContext.Request.Headers.FirstOrDefault(t => t.Key == "SessionToken").Value.ToString();
+            var sessionToken = actionContext.HttpContext.Request.Headers.FirstOrDefault(t => t.Key.Equals("SessionToken", StringComparison.InvariantCultureIgnoreCase)).Value.ToString();
             if (String.IsNullOrWhiteSpace(sessionToken))
             {
                 actionContext.Result = new Core.StatusResults.UnauthorizedResult();

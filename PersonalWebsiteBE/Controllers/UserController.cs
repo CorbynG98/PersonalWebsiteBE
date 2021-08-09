@@ -55,7 +55,7 @@ namespace PersonalWebsiteBE.Controllers
         [AuthorizationFilter]
         public async Task<ActionResult> LogoutAsync()
         {
-            var sessionToken = Request.Headers["SessionToken"].ToString();
+            var sessionToken = Request.Headers.FirstOrDefault(t => t.Key.Equals("SessionToken", StringComparison.InvariantCultureIgnoreCase)).Value.ToString();
             await userService.LogoutUserAsync(sessionToken);
             return NoContent();
         }

@@ -17,6 +17,7 @@ using PersonalWebsiteBE.Services.Repositories.Auth;
 using PersonalWebsiteBE.Services.Services.Auth;
 using PersonalWebsiteBE.Services.Services.Core;
 using System;
+using System.Collections.Generic;
 
 namespace PersonalWebsiteBE
 {
@@ -74,6 +75,8 @@ namespace PersonalWebsiteBE
                 options.Version = "1.1";
             });
 
+            services.AddCors();
+
             services.AddControllers();
         }
 
@@ -98,6 +101,12 @@ namespace PersonalWebsiteBE
 
             // Add error handling middleware
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+            app.UseCors(t => t
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                //.WithOrigins("corbyngreenwood.com", "127.0.0.1:8080", "localhost:8080")
+                .AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
