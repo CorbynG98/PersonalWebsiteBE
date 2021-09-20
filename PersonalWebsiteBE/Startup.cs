@@ -60,11 +60,13 @@ namespace PersonalWebsiteBE
             services.AddScoped(typeof(ISessionRepository), typeof(SessionRepository));
             services.AddScoped(typeof(IMiscRepository), typeof(MiscRepository));
             services.AddScoped(typeof(IEmailRepository), typeof(EmailRepository));
+            services.AddScoped(typeof(IProjectRepository), typeof(ProjectRepository));
 
             // Inject services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMiscService, MiscService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IProjectService, ProjectService>();
 
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
