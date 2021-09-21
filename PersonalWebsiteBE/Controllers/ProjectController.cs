@@ -18,7 +18,7 @@ namespace PersonalWebsiteBE.Controllers
     {
         private readonly IUserService userService;
         private readonly IMapper mapper;
-        public ProjectController(IProjectService userService, IMapper mapper)
+        public ProjectController(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
             this.mapper = mapper;
