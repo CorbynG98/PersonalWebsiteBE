@@ -31,7 +31,10 @@ jobs:
               files: '**/appsettings.json'
           env:
               "Sendgrid.ApiKey": ${{ secrets.SENDGRID_APIKEY }}
-              "FireStoreSettings.ProjectId": ${{ secrets.GCP_PROJECT_ID }}
+              "GoogleCloud.ProjectId": ${{ secrets.GCP_PROJECT_ID }}
+              "GoogleCloud.DefaultStorageBucket": ${{ secrets.GCP_DEFAULT_STORAGE_BUCKET}}
+              "GoogleCloud.DataLocation": ${{ secrets.GCP_DEFAULT_LOCATION }}
+              "GoogleCloud.StorageClass": ${{ secrets.GCP_STORAGE_CLASS }}
 
         - name: Build Docker image
           run: docker build -f ./Web/PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
