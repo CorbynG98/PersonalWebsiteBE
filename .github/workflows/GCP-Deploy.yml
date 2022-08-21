@@ -34,7 +34,7 @@ jobs:
               "FireStoreSettings.ProjectId": ${{ secrets.GCP_PROJECT_ID }}
 
         - name: Build Docker image
-          run: docker build -f ./PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
+          run: docker build -f ./Web/PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
 
         - name: Push Docker image
           run: docker push $IMAGE_NAME
