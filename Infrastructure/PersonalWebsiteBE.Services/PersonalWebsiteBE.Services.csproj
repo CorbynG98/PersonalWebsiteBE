@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="4.1.0" />
+    <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="SendGrid" Version="9.28.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\PersonalWebsiteBE.Core\PersonalWebsiteBE.Core.csproj" />
+    <ProjectReference Include="..\..\Integrations\PersonalWebsiteBE.Sendgrid\PersonalWebsiteBE.Sendgrid.csproj" />
+    <ProjectReference Include="..\..\Persistence\PersonalWebsiteBE.Repository\PersonalWebsiteBE.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

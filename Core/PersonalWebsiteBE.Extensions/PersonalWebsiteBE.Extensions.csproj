@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\PersonalWebsiteBE.Services\PersonalWebsiteBE.Services.csproj" />
+    <ProjectReference Include="..\..\Integrations\PersonalWebsiteBE.Sendgrid\PersonalWebsiteBE.Sendgrid.csproj" />
+    <ProjectReference Include="..\..\Persistence\PersonalWebsiteBE.Repository\PersonalWebsiteBE.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
