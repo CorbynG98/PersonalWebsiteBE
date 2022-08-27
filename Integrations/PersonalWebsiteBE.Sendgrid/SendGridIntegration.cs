@@ -20,10 +20,11 @@ namespace PersonalWebsiteBE.SendGrid
             // Make client
             SendGridClient client = new SendGridClient(sendGridConfig.ApiKey);
             // Make To and From objects
-            var fromAddress = new EmailAddress(from, fromName);
+            var fromAddress = new EmailAddress("no-reply@corbyngreenwood.com", fromName);
             var toAddress = new EmailAddress(to, toName);
             // Create the message
             var message = MailHelper.CreateSingleEmail(fromAddress, toAddress, subject, PlainTextFallback, htmlContent);
+            message.ReplyTo = new EmailAddress(from, fromName);
             return await client.SendEmailAsync(message);
         }
     }
