@@ -59,5 +59,14 @@ namespace PersonalWebsiteBE.Controllers
             await userService.LogoutUserAsync(sessionToken);
             return NoContent();
         }
+
+        [HttpPost("VerifySession")]
+        public async Task<ActionResult> VerifySession()
+        {
+            var sessionToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+            if (sessionToken == null) return Ok(false);
+            var result = await userService.VerifyUserSession(sessionToken);
+            return Ok(result);
+        }
     }
 }
