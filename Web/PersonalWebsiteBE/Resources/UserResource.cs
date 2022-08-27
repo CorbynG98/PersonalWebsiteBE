@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Models.Auth
 {
-    [FirestoreData]
     public class UserResource
     {
         public string Username { get; set; }

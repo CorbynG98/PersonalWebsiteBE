@@ -18,7 +18,5 @@ namespace PersonalWebsiteBE.Core.Models.Auth
         public string ResetPasswordToken { get; set; }
         [FirestoreProperty]
         public DateTime? LastLoginAt { get; set; }
-        [FirestoreProperty]
-        public DateTime? UpdatedAt { get; set; }
     }
 }

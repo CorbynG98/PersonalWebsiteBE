@@ -21,8 +21,8 @@ namespace PersonalWebsiteBE.Core.Models.Core
         [FirestoreProperty]
         public string LiveUrl { get; set; } // Live url if available
         [FirestoreProperty]
-        public string Stars { get; set; }
+        public int Stars { get; set; }
         [FirestoreProperty]
-        public List<string> Languages { get; set; } // List of languages used on the project
+        public List<string> TechStack { get; set; } // List of languages used on the project
     }
 }

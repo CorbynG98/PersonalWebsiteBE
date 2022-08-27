@@ -10,7 +10,7 @@ namespace PersonalWebsiteBE.Core.Repositories
 {
     public interface IRepository<TEntity> where TEntity : IDocument
     {
-        Task<List<TEntity>> GetManyAsync();
+        Task<List<TEntity>> GetAllAsync();
         Task<TEntity> GetOneAsync(string id);
         Task UpdateOneAsync(string id, TEntity entity);
         Task<string> CreateOneAsync(TEntity entity);

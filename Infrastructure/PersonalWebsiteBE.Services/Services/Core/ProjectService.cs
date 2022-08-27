@@ -23,9 +23,14 @@ namespace PersonalWebsiteBE.Services.Services.Core
             this.projectRepository = projectRepository;
         }
 
-        public async Task<Project> CreateProjectAsync(Project newUser)
+        public async Task<List<Project>> GetAllAsync() {
+            return await projectRepository.GetAllAsync();
+        }
+
+        public async Task<Project> CreateProjectAsync(Project newProject)
         {
-            throw new NotImplementedException();
+            var newProjectId = await projectRepository.CreateOneAsync(newProject);
+            return await projectRepository.GetOneAsync(newProjectId);
         }
 
         public async Task DeleteProjectAsync(string projectId)

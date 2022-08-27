@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using PersonalWebsiteBE.Core.Exceptions;
 using PersonalWebsiteBE.Core.Helpers.HelperModels;
 using PersonalWebsiteBE.Core.Models.Auth;
+using PersonalWebsiteBE.Core.Models.Core;
 using PersonalWebsiteBE.Core.Services.Auth;
+using PersonalWebsiteBE.Core.Services.Core;
 using PersonalWebsiteBE.Filters;
 using System;
 using System.Collections.Generic;
@@ -16,30 +18,20 @@ namespace PersonalWebsiteBE.Controllers
     [Route("[controller]")]
     public class ProjectController : Controller
     {
-        private readonly IUserService userService;
+        private readonly IProjectService projectService;
         private readonly IMapper mapper;
-        public ProjectController(IUserService userService, IMapper mapper)
+        public ProjectController(IProjectService projectService, IMapper mapper)
         {
-            this.userService = userService;
+            this.projectService = projectService;
             this.mapper = mapper;
         }
 
-        [HttpPost]
-        [AuthorizationFilter]
-        public async Task<ActionResult> CreateAsync([FromBody] UserResource userResource)
-        {
-            // Convert resource to model
-            var user = mapper.Map<UserResource, User>(userResource);
-            // Pass through to service
-            var authData = await userService.CreateUserAsync(user);
-            // Return sessin in 200 response
-            return Ok(authData);
-        }
-
-        [HttpPost("GetProjects")]
+        [HttpGet]
         public async Task<ActionResult> GetProjects()
         {
-            throw new NotImplementedException();
+            var projects = await projectService.GetAllAsync();
+            var projectsResource = mapper.Map<List<Project>, List<ProjectResource>>(projects);
+            return Ok(projectsResource);
         }
     }
 }

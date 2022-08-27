@@ -11,11 +11,14 @@ namespace PersonalWebsiteBE.Core.Models
     {
         public string Id { get; set; }
         DateTime CreatedAt { get; set; }
+        DateTime? UpdatedAt { get; set; }
     }
 
     public class Document : IDocument
     {
         public string Id { get; set; }
         public DateTime CreatedAt { get; set; }
+        [FirestoreProperty]
+        public DateTime? UpdatedAt { get; set; }
     }
 }

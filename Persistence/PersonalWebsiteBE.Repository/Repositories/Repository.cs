@@ -20,7 +20,7 @@ namespace PersonalWebsiteBE.Repository.Repositories
             Collection = typeof(TEntity).ToString().Split('.').LastOrDefault().Trim();
         }
 
-        public async Task<List<TEntity>> GetManyAsync()
+        public async Task<List<TEntity>> GetAllAsync()
         {
             Query entityQuery = FireStoreDb.Collection(Collection);
             QuerySnapshot entityQuerySnapshot = await entityQuery.GetSnapshotAsync();
@@ -59,6 +59,7 @@ namespace PersonalWebsiteBE.Repository.Repositories
 
         public async Task UpdateOneAsync(string id, TEntity entity)
         {
+            entity.UpdatedAt = DateTime.UtcNow;
             DocumentReference entityReference = FireStoreDb.Collection(Collection).Document(id);
             await entityReference.SetAsync(entity, SetOptions.Overwrite);
         }
@@ -72,6 +73,7 @@ namespace PersonalWebsiteBE.Repository.Repositories
         /// <returns>Id of the object we just created</returns>
         public async Task<string> CreateOneAsync(TEntity entity)
         {
+            entity.UpdatedAt = DateTime.UtcNow;
             CollectionReference entityReference = FireStoreDb.Collection(Collection);
             return (await entityReference.AddAsync(entity)).Id;
         }

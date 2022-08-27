@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Mappers
 {
-    public class UserMapper : Profile
+    public class ProjectMapper : Profile
     {
-        public UserMapper()
+        public ProjectMapper()
         {
             // Model to resource mapping, and back again
-            CreateMap<UserResource, User>().ReverseMap();
+            CreateMap<ProjectResource, Project>().ReverseMap();
         }
     }
 }

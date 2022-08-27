@@ -61,6 +61,10 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, SessionId = sessionId, Type = AuthActivityType.Login };
             await userRepository.CreateLoginActivityAsync(userId, activity);
 
+            // Update last login date
+            user.LastLoginAt = DateTime.UtcNow;
+            await userRepository.UpdateOneAsync(userId, user);
+
             // Return session token to the controller
             return new AuthData() { SessionToken = sessionToken, Username = user.Username };
         }

@@ -9,8 +9,12 @@ namespace PersonalWebsiteBE.Core.Services.Core
 {
     public interface IProjectService
     {
-        Task<Project> CreateProjectAsync(Project newUser);
-        Task UpdateProjectAsync(string projectId, Project newProject);
+        Task<List<Project>> GetAllAsync();
+
+        Task<Project> CreateProjectAsync(Project newProject);
+
         Task DeleteProjectAsync(string projectId);
+
+        Task UpdateProjectAsync(string projectId, Project newProject);
     }
 }
