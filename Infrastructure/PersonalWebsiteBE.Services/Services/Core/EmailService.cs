@@ -69,6 +69,11 @@ namespace PersonalWebsiteBE.Services.Services.Core
             // Send the email
             var result = await sendGridIntegration.SendEmail(newEmailLog.To, newEmailLog.ToName, newEmailLog.From, newEmailLog.FromName, htmlContent, subject);
 
+            // Update log to show above result incase of failure
+            newEmailLog.HasFailed = result.IsSuccessStatusCode;
+            newEmailLog.FailReason = result.IsSuccessStatusCode ? null : await result.Body.ReadAsStringAsync();
+            await emailRepository.UpdateOneAsync(newLogId, newEmailLog);
+
             return result.IsSuccessStatusCode;
         }
     }

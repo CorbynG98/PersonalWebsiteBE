@@ -22,5 +22,9 @@ namespace PersonalWebsiteBE.Core.Models.Core
         public string To { get; set; }
         [FirestoreProperty]
         public string ToName { get; set; }
+        [FirestoreProperty]
+        public bool HasFailed { get; set; }
+        [FirestoreProperty]
+        public string FailReason { get; set; }
     }
 }
