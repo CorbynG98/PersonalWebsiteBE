@@ -31,7 +31,7 @@ namespace PersonalWebsiteBE.Controllers
             // Convert resource to model
             var user = mapper.Map<UserResource, User>(userResource);
             // Pass through to service
-            var authData = await userService.CreateUserAsync(user);
+            var authData = await userService.CreateUserAsync(user, GetIp());
             // Return sessin in 200 response
             return Ok(authData);
         }
@@ -43,7 +43,7 @@ namespace PersonalWebsiteBE.Controllers
             AuthData authData;
             try
             {
-                authData = await userService.LoginUserAsync(user);
+                authData = await userService.LoginUserAsync(user, GetIp());
             } catch (UserLoginException ex) {
                 return BadRequest(ex.Message);
             }
@@ -67,6 +67,16 @@ namespace PersonalWebsiteBE.Controllers
             if (sessionToken == null) return Ok(false);
             var result = await userService.VerifyUserSession(sessionToken);
             return Ok(result);
+        }
+
+        private string GetIp()
+        {
+            var ip = this.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+            if (string.IsNullOrEmpty(ip))
+            {
+                ip = this.Request.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+            }
+            return ip;
         }
     }
 }

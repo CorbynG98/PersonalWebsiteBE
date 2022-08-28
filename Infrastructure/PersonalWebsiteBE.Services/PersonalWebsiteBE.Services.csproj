@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\PersonalWebsiteBE.Core\PersonalWebsiteBE.Core.csproj" />
+    <ProjectReference Include="..\..\Integrations\PersonalWebsiteBE.IpApi\PersonalWebsiteBE.IpApi.csproj" />
     <ProjectReference Include="..\..\Integrations\PersonalWebsiteBE.Sendgrid\PersonalWebsiteBE.Sendgrid.csproj" />
     <ProjectReference Include="..\..\Persistence\PersonalWebsiteBE.Repository\PersonalWebsiteBE.Repository.csproj" />
   </ItemGroup>

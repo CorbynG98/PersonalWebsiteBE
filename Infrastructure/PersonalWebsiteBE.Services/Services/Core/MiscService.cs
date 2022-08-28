@@ -4,6 +4,7 @@ using PersonalWebsiteBE.Core.Helpers.HelperModels;
 using PersonalWebsiteBE.Core.Models.Core;
 using PersonalWebsiteBE.Core.Repositories.Core;
 using PersonalWebsiteBE.Core.Services.Core;
+using PersonalWebsiteBE.IpApi;
 using RestSharp;
 
 namespace PersonalWebsiteBE.Services.Services.Core
@@ -11,9 +12,11 @@ namespace PersonalWebsiteBE.Services.Services.Core
     public class MiscService : IMiscService
     {
         private readonly IMiscRepository miscRepository;
+        private readonly IpApiIntegration ipApiIntegration;
 
         public MiscService(IMiscRepository miscRepository)
         {
+            this.ipApiIntegration = new IpApiIntegration();
             this.miscRepository = miscRepository;
         }
 
@@ -23,10 +26,11 @@ namespace PersonalWebsiteBE.Services.Services.Core
 
         public async Task<AboutYouData> GetAboutYouData(string ipAddress)
         {
-            var client = new RestClient(@"http://ip-api.com/");
-            var request = new RestRequest($"json/{ipAddress}");
-            var response = await client.GetAsync(request);
-            return JsonConvert.DeserializeObject<AboutYouData>(response.Content);
+            // Call integration project to get the data
+            var apiData = ipApiIntegration.GetIpInformation(ipAddress);
+            // Convert to string and back to object for returning
+            var stringify = JsonConvert.SerializeObject(apiData);
+            return JsonConvert.DeserializeObject<AboutYouData>(stringify);
         }
     }
 }

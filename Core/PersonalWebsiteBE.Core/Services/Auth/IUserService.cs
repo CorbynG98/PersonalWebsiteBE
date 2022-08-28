@@ -10,9 +10,9 @@ namespace PersonalWebsiteBE.Core.Services.Auth
 {
     public interface IUserService
     {
-        Task<AuthData> CreateUserAsync(User newUser);
+        Task<AuthData> CreateUserAsync(User newUser, string ip);
         Task UpdateUserAsync();
-        Task<AuthData> LoginUserAsync(User userLoginData);
+        Task<AuthData> LoginUserAsync(User userLoginData, string ip);
         Task LogoutUserAsync(string sessionToken);
         Task<bool> VerifyUserSession(string sessionToken);
         Task DeleteUserAsync();
