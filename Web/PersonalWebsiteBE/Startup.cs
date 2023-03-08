@@ -35,7 +35,7 @@ namespace PersonalWebsiteBE
         public void ConfigureServices(IServiceCollection services)
         {
             #if DEBUG
-            var keyPath = "C:\\Git\\Personal website\\keys\\personal-313620-455b9a56117a.json"; // Change this if running on different computer
+            var keyPath = "C:\\Git\\Personal website\\keys\\personal-313620.json"; // Change this if running on different computer
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
             #endif
 

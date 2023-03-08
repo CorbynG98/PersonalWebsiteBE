@@ -27,13 +27,10 @@ namespace PersonalWebsiteBE.Services.Services.Core
         public async Task<AboutYouData> GetAboutYouData(string ipAddress)
         {
             // Call integration project to get the data
-            var apiData = ipApiIntegration.GetIpInformation(ipAddress);
+            ipAddress = "174.89.46.253";
+            var apiData = await ipApiIntegration.GetIpInformation(ipAddress);
             // Convert to string and back to object for returning
-            var stringify = JsonConvert.SerializeObject(apiData, Formatting.None,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
+            var stringify = JsonConvert.SerializeObject(apiData);
             return JsonConvert.DeserializeObject<AboutYouData>(stringify);
         }
     }
