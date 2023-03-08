@@ -5,15 +5,19 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
     deploy:
-        name: Setup GCloud Account
+        name: Build and Deploy
         runs-on: ubuntu-latest
         
         env:
           REGISTRY: us-east1-docker.pkg.dev
-          IMAGE_NAME: us-central1-docker.pkg.dev/personal-313620/personalapi/personal.api
+          IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}/personal.api
           
         permissions:
           contents: 'read'
