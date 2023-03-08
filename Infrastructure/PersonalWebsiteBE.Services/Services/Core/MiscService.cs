@@ -29,7 +29,11 @@ namespace PersonalWebsiteBE.Services.Services.Core
             // Call integration project to get the data
             var apiData = ipApiIntegration.GetIpInformation(ipAddress);
             // Convert to string and back to object for returning
-            var stringify = JsonConvert.SerializeObject(apiData);
+            var stringify = JsonConvert.SerializeObject(apiData, Formatting.None,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
             return JsonConvert.DeserializeObject<AboutYouData>(stringify);
         }
     }

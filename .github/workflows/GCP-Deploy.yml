@@ -23,10 +23,10 @@ jobs:
           run: gcloud auth configure-docker --quiet
 
         - name: Checkout repository
-          uses: actions/checkout@v2
+          uses: actions/checkout@v3
 
         - name: Token replacement
-          uses: microsoft/variable-substitution@v1 
+          uses: receiptably/variable-substitution@v1
           with:
               files: '**/appsettings.json'
           env:
@@ -43,4 +43,4 @@ jobs:
           run: docker push $IMAGE_NAME
 
         - name: Deploy Docker image
-          run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region australia-southeast1 --platform managed
+          run: gcloud run deploy personal-website-api --image $IMAGE_NAME --region us-central1 --platform managed
