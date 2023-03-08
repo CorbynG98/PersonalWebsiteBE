@@ -12,7 +12,8 @@ jobs:
         runs-on: ubuntu-latest
         
         env:
-          IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
+          REGISTRY: us-central1-docker.pkg.dev
+          IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}/personal.website.api
           
         permissions:
           contents: 'read'
@@ -28,12 +29,6 @@ jobs:
             workload_identity_provider: 'projects/822547401103/locations/global/workloadIdentityPools/github-actions/providers/personal-identity-pool-github'
             service_account: github-actions@personal-313620.iam.gserviceaccount.com
 
-        - name: Configure Google Cloud
-          uses: google-github-actions/setup-gcloud@v1
-
-        - name: Configure Docker
-          run: gcloud auth configure-docker --quiet
-
         - name: Token replacement
           uses: receiptably/variable-substitution@v1
           with:
@@ -44,6 +39,12 @@ jobs:
               "GoogleCloud.DefaultStorageBucket": ${{ secrets.GCP_DEFAULT_STORAGE_BUCKET}}
               "GoogleCloud.DataLocation": ${{ secrets.GCP_DEFAULT_LOCATION }}
               "GoogleCloud.StorageClass": ${{ secrets.GCP_STORAGE_CLASS }}
+
+        - name: Configure Google Cloud
+          uses: google-github-actions/setup-gcloud@v1
+
+        - name: Configure Docker
+          run: gcloud auth configure-docker --quiet $REGISTRY
 
         - name: Build Docker image
           run: docker build -f ./Web/PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
