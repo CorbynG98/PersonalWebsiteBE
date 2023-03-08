@@ -12,8 +12,8 @@ jobs:
         runs-on: ubuntu-latest
         
         env:
-          REGISTRY: us-central1-docker.pkg.dev
-          IMAGE_NAME: us-east1-docker.pkg.dev/personal-313620/personalapi/personal.api
+          REGISTRY: us-east1-docker.pkg.dev
+          IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}/personal.api
           
         permissions:
           contents: 'read'
