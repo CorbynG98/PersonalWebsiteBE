@@ -13,17 +13,20 @@ jobs:
         env:
           IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
         steps:
-        - name: Login
-          uses: google-github-actions/setup-gcloud@main
+        - uses: actions/checkout@v3
+
+        - id: 'auth'
+          name: "Authenticate Google Cloud"
+          uses: 'google-github-actions/auth@v1'
           with:
-            project_id: ${{ secrets.GCP_PROJECT_ID }}
-            service_account_email: ${{ secrets.GCP_EMAIL }}
-            service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+            workload_identity_provider: 'projects/822547401103/locations/global/workloadIdentityPools/github-actions/providers/personal-identity-pool-github'
+            service_account: github-actions@personal-313620.iam.gserviceaccount.com
+
+        - name: Configure Google Cloud
+          uses: google-github-actions/setup-gcloud@v1
+
         - name: Configure Docker
           run: gcloud auth configure-docker --quiet
-
-        - name: Checkout repository
-          uses: actions/checkout@v3
 
         - name: Token replacement
           uses: receiptably/variable-substitution@v1
