@@ -30,8 +30,8 @@ jobs:
           name: "Authenticate Google Cloud"
           uses: 'google-github-actions/auth@v1'
           with:
-            workload_identity_provider: 'projects/822547401103/locations/global/workloadIdentityPools/github-actions/providers/personal-identity-pool-github'
-            service_account: github-actions@personal-313620.iam.gserviceaccount.com
+            workload_identity_provider: ${{secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+            service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
         - name: Token replacement
           uses: receiptably/variable-substitution@v1
