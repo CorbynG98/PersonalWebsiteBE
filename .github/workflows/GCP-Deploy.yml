@@ -42,7 +42,7 @@ jobs:
       with:
         files: '**/PersonalWebsiteBE.IntegrationTests/appsettings.Test.json'
       env:
-        "GoogleCloud.Root": ${{ format('{1}-{2}', 'TEST', github.run_id) }}
+        "GoogleCloud.Root": ${{ format('{0}-{1}', 'TEST', github.run_id) }}
 
     - name: Install dependencies
       run: dotnet restore ./Tests/PersonalWebsiteBE.IntegrationTests
@@ -80,6 +80,7 @@ jobs:
 
   build:
     name: Build Docker Image
+    needs: testing
     runs-on: ubuntu-latest
       
     permissions:
