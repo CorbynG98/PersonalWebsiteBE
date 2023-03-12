@@ -14,7 +14,7 @@ namespace PersonalWebsiteBE.Repository.Repositories.Core
 
         public async Task<EmailTemplate> GetEmailTemplateByTypeAsync(EmailTemplateTypes type)
         {
-            QuerySnapshot querySnapshot = await FireStoreDb.Collection(Collection)
+            QuerySnapshot querySnapshot = await Collection
                     .WhereEqualTo(nameof(EmailTemplate.TemplateType), type)
                     .Limit(1)
                     .GetSnapshotAsync();

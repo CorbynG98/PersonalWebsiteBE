@@ -14,16 +14,22 @@ namespace PersonalWebsiteBE.Repository.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : IDocument
     {
         protected FirestoreDb FireStoreDb;
-        protected string Collection;
+        protected CollectionReference Collection;
         public Repository(IFireStoreSettings settings) {
             FireStoreDb = FirestoreDb.Create(settings.ProjectId);
-            Collection = typeof(TEntity).ToString().Split('.').LastOrDefault().Trim();
+            // Dynamically set collection reference with prefix if present
+            if (string.IsNullOrWhiteSpace(settings.Root))
+                Collection = FireStoreDb.Collection(typeof(TEntity).ToString().Split('.').LastOrDefault().Trim());
+            else
+            {
+                string collectionName = typeof(TEntity).ToString().Split('.').LastOrDefault().Trim();
+                Collection = FireStoreDb.Collection(settings.Root).Document(collectionName).Collection(collectionName);
+            }
         }
 
         public async Task<List<TEntity>> GetAllAsync()
         {
-            Query entityQuery = FireStoreDb.Collection(Collection);
-            QuerySnapshot entityQuerySnapshot = await entityQuery.GetSnapshotAsync();
+            QuerySnapshot entityQuerySnapshot = await Collection.GetSnapshotAsync();
             List<TEntity> listEntity = new();
 
             foreach (DocumentSnapshot documentSnapshot in entityQuerySnapshot.Documents)
@@ -41,7 +47,7 @@ namespace PersonalWebsiteBE.Repository.Repositories
 
         public async Task<TEntity> GetOneAsync(string id)
         {
-            DocumentReference docRef = FireStoreDb.Collection(Collection).Document(id);
+            DocumentReference docRef = Collection.Document(id);
             DocumentSnapshot documentSnapshot = await docRef.GetSnapshotAsync();
 
             if (documentSnapshot.Exists)
@@ -60,7 +66,7 @@ namespace PersonalWebsiteBE.Repository.Repositories
         public async Task UpdateOneAsync(string id, TEntity entity)
         {
             entity.UpdatedAt = DateTime.UtcNow;
-            DocumentReference entityReference = FireStoreDb.Collection(Collection).Document(id);
+            DocumentReference entityReference = Collection.Document(id);
             await entityReference.SetAsync(entity, SetOptions.Overwrite);
         }
 
@@ -74,13 +80,12 @@ namespace PersonalWebsiteBE.Repository.Repositories
         public async Task<string> CreateOneAsync(TEntity entity)
         {
             entity.UpdatedAt = DateTime.UtcNow;
-            CollectionReference entityReference = FireStoreDb.Collection(Collection);
-            return (await entityReference.AddAsync(entity)).Id;
+            return (await Collection.AddAsync(entity)).Id;
         }
 
         public async Task DeleteOneAsync(string id)
         {
-            DocumentReference entityReference = FireStoreDb.Collection(Collection).Document(id);
+            DocumentReference entityReference = Collection.Document(id);
             await entityReference.DeleteAsync();
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Services.Core
 {
-    public interface IProjectService
+    public interface IProjectService : IService<Project>
     {
         Task<List<Project>> GetAllAsync();
 

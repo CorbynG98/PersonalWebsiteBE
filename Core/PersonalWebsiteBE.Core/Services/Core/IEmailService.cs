@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Services.Core
 {
-    public interface IEmailService
+    public interface IEmailService : IService<EmailLog>
     {
         Task<bool> CreateNewMessageEmail(EmailLog email);
     }

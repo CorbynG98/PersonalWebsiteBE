@@ -18,7 +18,7 @@ using PersonalWebsiteBE.Services.Services.Auth;
 using PersonalWebsiteBE.Services.Services.Core;
 using PersonalWebsiteBE.Core.Extensions;
 using System;
-using System.Collections.Generic;
+using Google.Cloud.Diagnostics.AspNetCore3;
 
 namespace PersonalWebsiteBE
 {
@@ -39,6 +39,10 @@ namespace PersonalWebsiteBE
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
             #endif
 
+
+            IFireStoreSettings googleCloudSettings = new FireStoreSettings();
+            Configuration.GetSection("GoogleCloud").Bind(googleCloudSettings);
+
             services.AddOptions();
             services.AddMemoryCache();
             services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
@@ -57,6 +61,15 @@ namespace PersonalWebsiteBE
             services.AddCors();
 
             services.AddControllers();
+
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+            services.AddGoogleErrorReportingForAspNetCore(new Google.Cloud.Diagnostics.Common.ErrorReportingServiceOptions
+            {
+                ProjectId = googleCloudSettings.ProjectId,
+                ServiceName = "personalwebsitebe",
+                Version = "1.1"
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

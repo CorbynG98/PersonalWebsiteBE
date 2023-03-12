@@ -14,6 +14,8 @@ namespace PersonalWebsiteBE.Core.Models.Auth
         [FirestoreProperty]
         public AuthActivityType Type { get; set; }
         [FirestoreProperty]
+        public string UserId { get; set; }
+        [FirestoreProperty]
         public string SessionId { get; set; }
         [FirestoreProperty]
         public DateTime? ActionedAt { get; set; }

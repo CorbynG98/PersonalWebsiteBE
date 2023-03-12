@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Services.Auth
 {
-    public interface IUserService
+    public interface IUserService : IService<User>
     {
         Task<AuthData> CreateUserAsync(User newUser, string ip);
         Task UpdateUserAsync();

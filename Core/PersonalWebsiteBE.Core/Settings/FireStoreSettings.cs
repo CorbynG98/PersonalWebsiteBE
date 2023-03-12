@@ -12,6 +12,7 @@ namespace PersonalWebsiteBE.Core.Settings
         string DefaultStorageBucket { get; set; }
         string DataLocation { get; set; }
         string StorageClass { get; set; }
+        string Root { get; set; }
     }
 
     public class FireStoreSettings : IFireStoreSettings
@@ -20,5 +21,6 @@ namespace PersonalWebsiteBE.Core.Settings
         public string DefaultStorageBucket { get; set; }
         public string DataLocation { get; set; }
         public string StorageClass { get; set; }
+        public string Root { get; set; }
     }
 }

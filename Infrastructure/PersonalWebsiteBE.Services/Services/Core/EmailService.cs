@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Services.Services.Core
 {
-    public class EmailService : IEmailService
+    public class EmailService : Service<EmailLog>, IEmailService
     {
         // Injected stuff
         private readonly IEmailRepository emailRepository;
@@ -30,7 +30,7 @@ namespace PersonalWebsiteBE.Services.Services.Core
         private readonly string ToFullname = "Corbyn Greenwood";
 
         public EmailService(IEmailRepository emailRepository, IEmailTemplateRepository emailTemplateRepository, ISendGridSettings sendGridSettings,
-            IFireStoreSettings fireStoreSettings)
+            IFireStoreSettings fireStoreSettings) : base(emailRepository)
         {
             this.emailRepository = emailRepository;
             this.emailTemplateRepository = emailTemplateRepository;

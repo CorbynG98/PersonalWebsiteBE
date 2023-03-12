@@ -15,13 +15,13 @@ using PersonalWebsiteBE.IpApi;
 
 namespace PersonalWebsiteBE.Services.Services.Auth
 {
-    public class UserService : IUserService
+    public class UserService : Service<User>, IUserService
     {
         private readonly IUserRepository userRepository;
         private readonly ISessionRepository sessionRepository;
         private readonly IpApiIntegration ipApiIntegration;
 
-        public UserService(IUserRepository userRepository, ISessionRepository sessionRepository)
+        public UserService(IUserRepository userRepository, ISessionRepository sessionRepository) : base(userRepository)
         {
             this.userRepository = userRepository;
             this.sessionRepository = sessionRepository;
@@ -34,23 +34,7 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             var userId = await userRepository.CreateOneAsync(newUser);
 
             // Get data on IpAddress
-            IpApiData ipApiData;
-            if (ip == "0.0.0.1" || ip == "127.0.0.1" || ip == "localhost")
-            {
-                ipApiData = new()
-                {
-                    CountryCode = "localhost",
-                    Country = "localhost",
-                    RegionName = "localhost",
-                    Lat = 0,
-                    Lon = 0,
-                    City = "localhost",
-                };
-            }
-            else
-            {
-                ipApiData = await ipApiIntegration.GetIpInformation(ip);
-            }
+            IpApiData ipApiData = await ipApiIntegration.GetIpInformation(ip);
 
             // Create session and put in database
             var sessionToken = HashData.GetHashString(Guid.NewGuid().ToString("N")); // Need this here as we return it to user for their logged in session
@@ -69,7 +53,7 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             var sessionId = await sessionRepository.CreateOneAsync(session);
 
             // Create activity for this login and put in database
-            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, SessionId = sessionId, Type = AuthActivityType.Login };
+            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, UserId = userId, SessionId = sessionId, Type = AuthActivityType.Login };
             await userRepository.CreateLoginActivityAsync(userId, activity);
 
             // Return session token to the controller
@@ -121,7 +105,7 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             var sessionId = await sessionRepository.CreateOneAsync(session);
 
             // Create activity for this login and put in database
-            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, SessionId = sessionId, Type = AuthActivityType.Login };
+            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, UserId = userId, SessionId = sessionId, Type = AuthActivityType.Login };
             await userRepository.CreateLoginActivityAsync(userId, activity);
 
             // Update last login date
@@ -138,7 +122,7 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             if (session == null) return;
 
             // Create activity for this logout and put in database
-            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, SessionId = session.Id, Type = AuthActivityType.Logout };
+            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, UserId = session.UserId, SessionId = session.Id, Type = AuthActivityType.Logout };
             await userRepository.CreateLoginActivityAsync(session.UserId, activity);
 
             // Delete the session

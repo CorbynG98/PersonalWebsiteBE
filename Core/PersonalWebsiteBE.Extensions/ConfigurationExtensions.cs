@@ -17,15 +17,6 @@ namespace PersonalWebsiteBE.Core.Extensions
             IFireStoreSettings fireStore = new FireStoreSettings();
             configuration.GetSection("GoogleCloud").Bind(fireStore);
             services.AddSingleton(fireStore);
-
-            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-
-            services.AddGoogleExceptionLogging(options =>
-            {
-                options.ProjectId = fireStore.ProjectId;
-                options.ServiceName = "personalwebsitebe";
-                options.Version = "1.1";
-            });
         }
     }
 }

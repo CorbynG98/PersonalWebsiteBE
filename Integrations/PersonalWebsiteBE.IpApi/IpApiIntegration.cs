@@ -10,6 +10,18 @@ namespace PersonalWebsiteBE.IpApi
     {
         public async Task<IpApiData?> GetIpInformation(string ip)
         {
+            if (ip == "0.0.0.1" || ip == "127.0.0.1" || ip == "localhost")
+            {
+                return new IpApiData()
+                {
+                    CountryCode = "localhost",
+                    Country = "localhost",
+                    RegionName = "localhost",
+                    Lat = 0,
+                    Lon = 0,
+                    City = "localhost",
+                };
+            }
             var client = new RestClient(@"http://ip-api.com/");
             var request = new RestRequest($"json/{ip}");
             var response = await client.GetAsync(request);

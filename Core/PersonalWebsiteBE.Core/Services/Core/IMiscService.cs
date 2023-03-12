@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Services.Core
 {
-    public interface IMiscService
+    public interface IMiscService : IService<PageView>
     {
         Task LogPageView(PageView data);
         Task<AboutYouData> GetAboutYouData(string ipAddress);

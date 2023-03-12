@@ -5,6 +5,7 @@ using PersonalWebsiteBE.Core.Models.Core;
 using PersonalWebsiteBE.Core.Constants;
 using PersonalWebsiteBE.Core.Repositories.Core;
 using PersonalWebsiteBE.Core.Services.Core;
+using PersonalWebsiteBE.Core.Models.Auth;
 
 public class Program
 {
@@ -20,18 +21,8 @@ public class Program
         // ========================================
         // ========================================
 
-        var projectService = serviceProvider.GetService<IProjectService>();
-        var project = new Project()
-        {
-            Name = "Personal Website BE",
-            Description = "Back end code that powers my personal website",
-            Source = "https://github.com/CorbynG98/PersonalWebsiteBE",
-            LiveUrl = null,
-            Stars = 1,
-            ImageUrl = null,
-            TechStack = new List<string>() { "C#", ".NET" }
-        };
-        await projectService.CreateProjectAsync(project);
+        // await serviceProvider.ManuallyResetUserPassword("8GuVX9H9fx5WwCB8HVeQ", "P@ssword123#");
+        var data = await serviceProvider.GetDocumentsInCollectionJSONAsync<User>();
 
         Console.WriteLine("Not Corbyn's Terminal");
         Console.WriteLine("Done... [hit any key to close]");

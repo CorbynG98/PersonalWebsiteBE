@@ -10,51 +10,136 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  REGISTRY: us-central1-docker.pkg.dev
+  IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}/personal.api
+
 jobs:
-    deploy:
-        name: Build and Deploy
-        runs-on: ubuntu-latest
-        
-        env:
-          REGISTRY: us-central1-docker.pkg.dev
-          IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}/personal.api
-          
-        permissions:
-          contents: 'read'
-          id-token: 'write'
+  testing:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    env:
+      PROJECTBUILDDIR: ./Tests/PersonalWebsiteBE.IntegrationTests/bin/Test/net6.0
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    
+    steps:
+    - uses: actions/checkout@v3
 
-        steps:
-        - uses: actions/checkout@v3
+    - id: 'auth'
+      name: "Authenticate Google Cloud"
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: ${{ secrets.GCP_TEST_CREDENTIALS }}
 
-        - id: 'auth'
-          name: "Authenticate Google Cloud"
-          uses: 'google-github-actions/auth@v1'
-          with:
-            workload_identity_provider: ${{secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-            service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+    - name: Configure Google Cloud
+      uses: google-github-actions/setup-gcloud@v1
 
-        - name: Token replacement
-          uses: receiptably/variable-substitution@v1
-          with:
-              files: '**/appsettings.json'
-          env:
-              "Sendgrid.ApiKey": ${{ secrets.SENDGRID_APIKEY }}
-              "GoogleCloud.ProjectId": ${{ secrets.GCP_PROJECT_ID }}
-              "GoogleCloud.DefaultStorageBucket": ${{ secrets.GCP_DEFAULT_STORAGE_BUCKET}}
-              "GoogleCloud.DataLocation": ${{ secrets.GCP_DEFAULT_LOCATION }}
-              "GoogleCloud.StorageClass": ${{ secrets.GCP_STORAGE_CLASS }}
+    - name: Token Replacement
+      uses: receiptably/variable-substitution@v1
+      with:
+        files: '**/PersonalWebsiteBE.IntegrationTests/appsettings.Test.json'
+      env:
+        "GoogleCloud.Root": ${{ format('{1}-{2}', 'TEST', github.run_id) }}
 
-        - name: Configure Google Cloud
-          uses: google-github-actions/setup-gcloud@v1
+    - name: Install dependencies
+      run: dotnet restore ./Tests/PersonalWebsiteBE.IntegrationTests
+    
+    - name: Run tests
+      run: dotnet test ./Tests/PersonalWebsiteBE.IntegrationTests --no-restore --collect:"XPlat Code Coverage" --configuration:"Test"
 
-        - name: Configure Docker
-          run: gcloud auth configure-docker --quiet $REGISTRY
+    - name: Generate Livingdoc
+      run: |
+        dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
+        livingdoc test-assembly $PROJECTBUILDDIR/PersonalWebsiteBE.IntegrationTests.dll -t $PROJECTBUILDDIR/TestExecution.json -o ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/index.html
 
-        - name: Build Docker image
-          run: docker build -f ./Web/PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
+    - name: Generate Coverage Report
+      run: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:"./Tests/PersonalWebsiteBE.IntegrationTests/TestResults/**/coverage.cobertura.xml" -targetdir:"./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage" -reporttypes:Html_Dark
 
-        - name: Push Docker image
-          run: docker push $IMAGE_NAME
+    - name: Publish Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: Specflow Living Doc - ${{ github.run_id }}
+        path: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/index.html
 
-        - name: Deploy Docker image
-          run: gcloud run deploy personal-website-api --image $IMAGE_NAME --region us-central1 --platform managed
+    - name: Publish Coverage Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: Coverage Report - ${{ github.run_id }}
+        path: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage
+
+    - name: Push To Github Pages
+      run: |
+        chmod +x ./Scripts/deploy.sh
+        ./Scripts/deploy.sh
+      shell: bash
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+      
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: 'auth'
+      name: "Authenticate Google Cloud"
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: ${{secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+    - name: Token replacement
+      uses: receiptably/variable-substitution@v1
+      with:
+          files: '**/appsettings.json'
+      env:
+          "Sendgrid.ApiKey": ${{ secrets.SENDGRID_APIKEY }}
+          "GoogleCloud.ProjectId": ${{ secrets.GCP_PROJECT_ID }}
+          "GoogleCloud.DefaultStorageBucket": ${{ secrets.GCP_DEFAULT_STORAGE_BUCKET}}
+          "GoogleCloud.DataLocation": ${{ secrets.GCP_DEFAULT_LOCATION }}
+          "GoogleCloud.StorageClass": ${{ secrets.GCP_STORAGE_CLASS }}
+
+    - name: Configure Google Cloud
+      uses: google-github-actions/setup-gcloud@v1
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet $REGISTRY
+
+    - name: Build Docker image
+      run: docker build -f ./Web/PersonalWebsiteBE/Dockerfile -t $IMAGE_NAME .
+
+    - name: Push Docker image
+      run: docker push $IMAGE_NAME
+
+  deploy:
+    name: Deploy Docker Image
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: 'auth'
+      name: "Authenticate Google Cloud"
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: ${{secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+    - name: Configure Google Cloud
+      uses: google-github-actions/setup-gcloud@v1
+
+    - name: Deploy Docker image
+      run: gcloud run deploy personal-website-api --image $IMAGE_NAME --region us-central1 --platform managed

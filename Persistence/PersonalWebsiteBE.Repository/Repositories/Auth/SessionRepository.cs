@@ -17,7 +17,7 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
 
         public async Task<Session> GetSessionByTokenAsync(string sessionToken)
         {
-            Query query = FireStoreDb.Collection(Collection)
+            Query query = Collection
                     .WhereEqualTo("SessionToken", sessionToken);
             QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
 

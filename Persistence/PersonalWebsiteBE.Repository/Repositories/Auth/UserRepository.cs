@@ -13,10 +13,20 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(IFireStoreSettings settings) : base(settings) { }
+        private CollectionReference AuthActivityCollection;
+
+        public UserRepository(IFireStoreSettings settings) : base(settings) {
+            if (string.IsNullOrWhiteSpace(settings.Root))
+                AuthActivityCollection = FireStoreDb.Collection(typeof(AuthActivity).ToString().Split('.').LastOrDefault().Trim());
+            else
+            {
+                string collectionName = typeof(AuthActivity).ToString().Split('.').LastOrDefault().Trim();
+                AuthActivityCollection = FireStoreDb.Collection(settings.Root).Document(collectionName).Collection(collectionName);
+            }
+        }
 
         public async Task<User> GetUserByUsernameAndPassword(string username, string password) {
-            Query query = FireStoreDb.Collection(Collection)
+            Query query = Collection
                 .WhereEqualTo("Username", username)
                 .WhereEqualTo("Password", password);
             QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
@@ -35,10 +45,28 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
             }
         }
 
+        public async Task<User> GetByUsernameOnly(string username) {
+            Query query = Collection
+                .WhereEqualTo("Username", username);
+            QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+
+            if (querySnapshot.Documents.Count == 1)
+            {
+                DocumentSnapshot documentSnapshot = querySnapshot.Documents.First();
+                User entity = documentSnapshot.ConvertTo<User>();
+                entity.Id = documentSnapshot.Id;
+                entity.CreatedAt = documentSnapshot.CreateTime.Value.ToDateTime();
+                return entity;
+            }
+            else
+            {
+                return default;
+            }
+        }
+
         public async Task CreateLoginActivityAsync(string id, AuthActivity activity)
         {
-            CollectionReference entityReference = FireStoreDb.Collection($"User/{id}/AuthActivity");
-            await entityReference.AddAsync(activity);
+            await AuthActivityCollection.AddAsync(activity);
         }
     }
 }

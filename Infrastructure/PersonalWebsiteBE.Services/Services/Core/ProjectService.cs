@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using PersonalWebsiteBE.Core.Models.Auth;
 using PersonalWebsiteBE.Core.Models.Core;
 using PersonalWebsiteBE.Core.Repositories.Core;
 using PersonalWebsiteBE.Core.Services.Core;
@@ -13,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Services.Services.Core
 {
-    public class ProjectService : IProjectService
+    public class ProjectService : Service<Project>, IProjectService
     {
         // Injected stuff
         private readonly IProjectRepository projectRepository;
 
-        public ProjectService(IProjectRepository projectRepository)
+        public ProjectService(IProjectRepository projectRepository) : base(projectRepository)
         {
             this.projectRepository = projectRepository;
         }
