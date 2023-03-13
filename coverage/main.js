@@ -226,7 +226,7 @@ var assemblies = [
       { "name": "PersonalWebsiteBE.Core.Helpers.HelperModels.AuthData", "rp": "PersonalWebsiteBE.Core_AuthData.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Helpers.HelperModels.IpApiData", "rp": "PersonalWebsiteBE.Core_IpApiData.html", "cl": 6, "ucl": 10, "cal": 16, "tl": 28, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Helpers.Security.HashData", "rp": "PersonalWebsiteBE.Core_HashData.html", "cl": 10, "ucl": 0, "cal": 10, "tl": 27, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "PersonalWebsiteBE.Core.Middleware.ExceptionHandlingMiddleware", "rp": "PersonalWebsiteBE.Core_ExceptionHandlingMiddleware.html", "cl": 0, "ucl": 36, "cal": 36, "tl": 67, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Core.Middleware.ExceptionHandlingMiddleware", "rp": "PersonalWebsiteBE.Core_ExceptionHandlingMiddleware.html", "cl": 0, "ucl": 36, "cal": 36, "tl": 64, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Models.Auth.AuthActivity", "rp": "PersonalWebsiteBE.Core_AuthActivity.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Models.Auth.Session", "rp": "PersonalWebsiteBE.Core_Session.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Models.Auth.User", "rp": "PersonalWebsiteBE.Core_User.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 22, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -244,7 +244,7 @@ var assemblies = [
   {
     "name": "PersonalWebsiteBE.Extensions",
     "classes": [
-      { "name": "PersonalWebsiteBE.Core.Extensions.ConfigurationExtensions", "rp": "PersonalWebsiteBE.Extensions_ConfigurationExtensions.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 22, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Core.Extensions.ConfigurationExtensions", "rp": "PersonalWebsiteBE.Extensions_ConfigurationExtensions.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Extensions.RepositoryExtensions", "rp": "PersonalWebsiteBE.Extensions_RepositoryExtensions.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Extensions.ServiceExtensions", "rp": "PersonalWebsiteBE.Extensions_ServiceExtensions.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
