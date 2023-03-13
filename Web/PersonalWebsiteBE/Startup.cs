@@ -80,8 +80,6 @@ namespace PersonalWebsiteBE
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseGoogleExceptionLogging();
-
             app.UseIpRateLimiting();
 
             // app.UseHttpsRedirection();
