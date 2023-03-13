@@ -251,7 +251,7 @@ var assemblies = [
   {
     "name": "PersonalWebsiteBE.IpApi",
     "classes": [
-      { "name": "PersonalWebsiteBE.IpApi.IpApiIntegration", "rp": "PersonalWebsiteBE.IpApi_IpApiIntegration.html", "cl": 0, "ucl": 19, "cal": 19, "tl": 33, "cb": 0, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.IpApi.IpApiIntegration", "rp": "PersonalWebsiteBE.IpApi_IpApiIntegration.html", "cl": 0, "ucl": 19, "cal": 19, "tl": 32, "cb": 0, "tb": 10, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "PersonalWebsiteBE.Repository",
