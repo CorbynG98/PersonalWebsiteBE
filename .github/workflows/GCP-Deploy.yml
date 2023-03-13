@@ -27,6 +27,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
+      with:
+        token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
 
     - id: 'auth'
       name: "Authenticate Google Cloud"
@@ -72,16 +74,11 @@ jobs:
         name: Coverage Report - ${{ github.run_id }}
         path: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage
 
-    - name: Push to Github Pages Branch
-      run: |
-        git config user.email "corbyn.greenwood.98@gmail.com"
-        git config user.name "Corbyn Greenwood"
-        git checkout --orphan gh-pages
-        git --work-tree "./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages" add .
-        git --work-tree "./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages" commit -m "gh-pages"
-        git push origin HEAD:gh-pages --force
-        git checkout -f main
-        git branch -D gh-pages
+    - name: deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages
 
   build:
     name: Build Docker Image
