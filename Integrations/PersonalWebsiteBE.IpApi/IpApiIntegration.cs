@@ -2,7 +2,6 @@
 using PersonalWebsiteBE.Core.Helpers.HelperModels;
 using PersonalWebsiteBE.Core.Integrations;
 using RestSharp;
-using SendGrid;
 
 namespace PersonalWebsiteBE.IpApi
 {
