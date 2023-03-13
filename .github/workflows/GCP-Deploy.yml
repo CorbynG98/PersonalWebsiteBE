@@ -75,10 +75,10 @@ jobs:
         path: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage
 
     - name: deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages
 
   build:
     name: Build Docker Image
