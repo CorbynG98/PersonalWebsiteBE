@@ -72,7 +72,12 @@ jobs:
         name: Coverage Report - ${{ github.run_id }}
         path: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage
 
-    - name: deploy to gh-pages
+    - name: Copy CNAME Into Deploy Folder
+      shell: bash
+      run: |
+        cp ./Tests/PersonalWebsiteBE.IntegrationTests/CNAME ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/CNAME
+
+    - name: Deploy To Github Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}

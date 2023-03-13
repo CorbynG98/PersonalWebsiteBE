@@ -21,8 +21,8 @@ public class Program
         // ========================================
         // ========================================
 
-        // await serviceProvider.ManuallyResetUserPassword("8GuVX9H9fx5WwCB8HVeQ", "P@ssword123#");
-        var data = await serviceProvider.GetDocumentsInCollectionJSONAsync<User>();
+        await serviceProvider.ManuallyResetUserPassword("8GuVX9H9fx5WwCB8HVeQ", "Th1515594rt4");
+        // var data = await serviceProvider.GetDocumentsInCollectionJSONAsync<User>();
 
         Console.WriteLine("Not Corbyn's Terminal");
         Console.WriteLine("Done... [hit any key to close]");

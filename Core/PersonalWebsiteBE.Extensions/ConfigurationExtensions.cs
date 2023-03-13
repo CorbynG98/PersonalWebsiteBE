@@ -1,6 +1,4 @@
-﻿using AspNetCoreRateLimit;
-using Google.Cloud.Diagnostics.AspNetCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PersonalWebsiteBE.Core.Settings;
 
