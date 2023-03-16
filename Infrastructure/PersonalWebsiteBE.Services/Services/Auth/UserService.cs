@@ -66,6 +66,7 @@ namespace PersonalWebsiteBE.Services.Services.Auth
 
         public async Task<AuthData> LoginUserAsync(User userLoginData, string ip) {
             // Get the user from database
+            if (string.IsNullOrWhiteSpace(userLoginData.Username) || string.IsNullOrWhiteSpace(userLoginData.Password)) throw new UserLoginException("Username or password incorrect");
             var user = await userRepository.GetUserByUsernameAndPassword(userLoginData.Username, HashData.GetHashString(userLoginData.Password));
             if (user == null) throw new UserLoginException("Username or password incorrect");
             var userId = user.Id;

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PersonalWebsiteBE.Core.Exceptions;
 using PersonalWebsiteBE.Core.Helpers.HelperModels;
 using PersonalWebsiteBE.Core.Models.Auth;
 using PersonalWebsiteBE.Core.Repositories.Auth;
 using PersonalWebsiteBE.Core.Services.Auth;
+using System.Security.Authentication;
 
 namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
 {
@@ -31,11 +33,54 @@ namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
             user.Should().NotBeNull();
         }
 
+        [Given("No existing user with username (.*)")]
+        public async Task GivenNoExistingUserWithUsername(string username)
+        {
+            var user = await userRepository.GetByUsernameOnly(username);
+            user.Should().BeNull();
+        }
+
         [When("I login with username (.*) and password (.*)")]
         public async Task WhenILoginWithUsernameAndPassword(string username, string password) {
             var user = new User() { Username = username, Password = password };
-            var authData = await userService.LoginUserAsync(user, "localhost");
-            scenarioContext.Add("authData", authData);
+            try
+            {
+                var authData = await userService.LoginUserAsync(user, "localhost");
+                scenarioContext.Add("authData", authData);
+            }
+            catch (UserLoginException)
+            {
+                scenarioContext.Add("authData", null);
+            }
+        }
+
+        [When("I login with no username and password (.*)")]
+        public async Task WhenILoginWithNoUsernameAndPassword(string password) {
+            var user = new User() { Username = null, Password = password };
+            try
+            {
+                var authData = await userService.LoginUserAsync(user, "localhost");
+                scenarioContext.Add("authData", authData);
+            }
+            catch (UserLoginException)
+            {
+                scenarioContext.Add("authData", null);
+            }
+        }
+
+        [When("I login with username (.*) and no password")]
+        public async Task WhenILoginWithUsernameAndNoPassword(string username)
+        {
+            var user = new User() { Username = username, Password = null };
+            try
+            {
+                var authData = await userService.LoginUserAsync(user, "localhost");
+                scenarioContext.Add("authData", authData);
+            }
+            catch (UserLoginException)
+            {
+                scenarioContext.Add("authData", null);
+            }
         }
 
         [Then("AuthData should not be null")]
@@ -43,6 +88,13 @@ namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
             var authData = scenarioContext.Get<AuthData>("authData");
             authData.Should().NotBeNull();
             authData.SessionToken.Should().NotBeNull();
+        }
+
+        [Then("Auth should fail")]
+        public void ThenAuthDataShouldBeNull()
+        {
+            var authData = scenarioContext.Get<AuthData>("authData");
+            authData.Should().BeNull();
         }
     }
 }
