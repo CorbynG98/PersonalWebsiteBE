@@ -15,6 +15,8 @@ namespace PersonalWebsiteBE.Core.Models.Auth
         public string ImageUrl { get; set; }
         public string LiveUrl { get; set; }
         public string Stars { get; set; }
+        public bool IsDescriptionMarkdown { get; set; }
+        public bool Featured { get; set; }
         public List<string> TechStack { get; set; }
     }
 }
