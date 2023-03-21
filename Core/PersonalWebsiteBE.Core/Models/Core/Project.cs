@@ -17,6 +17,8 @@ namespace PersonalWebsiteBE.Core.Models.Core
         [FirestoreProperty]
         public string Description { get; set; }
         [FirestoreProperty]
+        public string DescriptionUrl { get; set; }
+        [FirestoreProperty]
         public string ImageUrl { get; set; } // Storage public image url
         [FirestoreProperty]
         public string LiveUrl { get; set; } // Live url if available

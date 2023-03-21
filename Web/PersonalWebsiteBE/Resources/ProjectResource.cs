@@ -12,9 +12,9 @@ namespace PersonalWebsiteBE.Core.Models.Auth
         public string Name { get; set; }
         public string Source { get; set; } 
         public string Description { get; set; }
+        public string DescriptionUrl { get; set; }
         public string ImageUrl { get; set; }
         public string LiveUrl { get; set; }
-        public string Stars { get; set; }
         public bool IsDescriptionMarkdown { get; set; }
         public bool Featured { get; set; }
         public List<string> TechStack { get; set; }
