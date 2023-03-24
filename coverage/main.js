@@ -246,7 +246,7 @@ var assemblies = [
     "classes": [
       { "name": "PersonalWebsiteBE.Core.Extensions.ConfigurationExtensions", "rp": "PersonalWebsiteBE.Extensions_ConfigurationExtensions.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Core.Extensions.RepositoryExtensions", "rp": "PersonalWebsiteBE.Extensions_RepositoryExtensions.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "PersonalWebsiteBE.Core.Extensions.ServiceExtensions", "rp": "PersonalWebsiteBE.Extensions_ServiceExtensions.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Core.Extensions.ServiceExtensions", "rp": "PersonalWebsiteBE.Extensions_ServiceExtensions.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "PersonalWebsiteBE.IpApi",
@@ -256,8 +256,8 @@ var assemblies = [
   {
     "name": "PersonalWebsiteBE.Repository",
     "classes": [
-      { "name": "PersonalWebsiteBE.Repository.Repositories.Auth.SessionRepository", "rp": "PersonalWebsiteBE.Repository_SessionRepository.html", "cl": 1, "ucl": 14, "cal": 15, "tl": 38, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "PersonalWebsiteBE.Repository.Repositories.Auth.UserRepository", "rp": "PersonalWebsiteBE.Repository_UserRepository.html", "cl": 39, "ucl": 1, "cal": 40, "tl": 72, "cb": 5, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Repository.Repositories.Auth.SessionRepository", "rp": "PersonalWebsiteBE.Repository_SessionRepository.html", "cl": 1, "ucl": 31, "cal": 32, "tl": 58, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Repository.Repositories.Auth.UserRepository", "rp": "PersonalWebsiteBE.Repository_UserRepository.html", "cl": 40, "ucl": 1, "cal": 41, "tl": 73, "cb": 5, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Repository.Repositories.Core.EmailRepository", "rp": "PersonalWebsiteBE.Repository_EmailRepository.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Repository.Repositories.Core.EmailTemplateRepository", "rp": "PersonalWebsiteBE.Repository_EmailTemplateRepository.html", "cl": 0, "ucl": 15, "cal": 15, "tl": 35, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Repository.Repositories.Core.MiscRepository", "rp": "PersonalWebsiteBE.Repository_MiscRepository.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -274,7 +274,8 @@ var assemblies = [
     "classes": [
       { "name": "PersonalWebsiteBE.Services.Helpers.GoogleCloud.GoogleStorageHelper", "rp": "PersonalWebsiteBE.Services_GoogleStorageHelper.html", "cl": 0, "ucl": 36, "cal": 36, "tl": 80, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Services.Helpers.GZip", "rp": "PersonalWebsiteBE.Services_GZip.html", "cl": 0, "ucl": 28, "cal": 28, "tl": 55, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "PersonalWebsiteBE.Services.Services.Auth.UserService", "rp": "PersonalWebsiteBE.Services_UserService.html", "cl": 42, "ucl": 41, "cal": 83, "tl": 145, "cb": 9, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Services.Services.Auth.SessionService", "rp": "PersonalWebsiteBE.Services_SessionService.html", "cl": 0, "ucl": 13, "cal": 13, "tl": 42, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "PersonalWebsiteBE.Services.Services.Auth.UserService", "rp": "PersonalWebsiteBE.Services_UserService.html", "cl": 42, "ucl": 53, "cal": 95, "tl": 163, "cb": 9, "tb": 22, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Services.Services.Core.EmailService", "rp": "PersonalWebsiteBE.Services_EmailService.html", "cl": 0, "ucl": 34, "cal": 34, "tl": 80, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Services.Services.Core.MiscService", "rp": "PersonalWebsiteBE.Services_MiscService.html", "cl": 0, "ucl": 13, "cal": 13, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "PersonalWebsiteBE.Services.Services.Core.ProjectService", "rp": "PersonalWebsiteBE.Services_ProjectService.html", "cl": 0, "ucl": 15, "cal": 15, "tl": 47, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
