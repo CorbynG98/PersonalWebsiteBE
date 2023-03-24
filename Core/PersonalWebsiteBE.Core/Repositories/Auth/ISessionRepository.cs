@@ -10,5 +10,6 @@ namespace PersonalWebsiteBE.Core.Repositories.Auth
     public interface ISessionRepository : IRepository<Session>
     {
         Task<Session> GetSessionByTokenAsync(string sessionToken);
+        Task<List<Session>> GetAllSessionsByUserId(string userId);
     }
 }

@@ -138,6 +138,24 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             return true;
         }
 
+        public async Task<Session> GetSessionByToken(string sessionToken)
+        {
+            // Find session by session token
+            var session = await sessionRepository.GetSessionByTokenAsync(HashData.GetHashString(sessionToken));
+            if (session == null) return null;
+            return session;
+        }
+
+        public async Task<User> GetUserBySessionToken(string sessionToken)
+        {
+            // Find session by session token
+            var session = await sessionRepository.GetSessionByTokenAsync(HashData.GetHashString(sessionToken));
+            if (session == null) return null;
+            var user = await userRepository.GetOneAsync(session.UserId);
+            if (user == null) return null;
+            return user;
+        }
+
         public async Task DeleteUserAsync() { 
         
         }

@@ -72,8 +72,6 @@ namespace PersonalWebsiteBE
 
             app.UseIpRateLimiting();
 
-            // app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthentication();

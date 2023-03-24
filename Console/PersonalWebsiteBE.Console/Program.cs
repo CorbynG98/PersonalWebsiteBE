@@ -9,6 +9,7 @@ using PersonalWebsiteBE.Core.Models.Auth;
 using PersonalWebsiteBE.Services.Helpers.GoogleCloud;
 using PersonalWebsiteBE.Core.Settings;
 using PersonalWebsiteBE.Core.Static;
+using PersonalWebsiteBE.Core.Services.Auth;
 
 public class Program
 {

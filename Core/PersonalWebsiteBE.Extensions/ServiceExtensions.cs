@@ -11,6 +11,7 @@ namespace PersonalWebsiteBE.Core.Extensions
         public static void AddServiceLayer(this IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ISessionService, SessionService>();
             services.AddTransient<IMiscService, MiscService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IProjectService, ProjectService>();

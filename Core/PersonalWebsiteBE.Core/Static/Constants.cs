@@ -8,7 +8,8 @@ namespace PersonalWebsiteBE.Core.Constants
 {
     public enum AuthActivityType { 
         Login,
-        Logout
+        Logout,
+        SessionRevoked
     }
 
     public enum EmailTemplateTypes

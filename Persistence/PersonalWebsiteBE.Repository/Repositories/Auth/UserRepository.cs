@@ -27,8 +27,8 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
 
         public async Task<User> GetUserByUsernameAndPassword(string username, string password) {
             Query query = Collection
-                .WhereEqualTo("Username", username)
-                .WhereEqualTo("Password", password);
+                .WhereEqualTo(nameof(User.Username), username)
+                .WhereEqualTo(nameof(User.Password), password);
             QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
 
             if (querySnapshot.Documents.Count == 1)
@@ -47,7 +47,7 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
 
         public async Task<User> GetByUsernameOnly(string username) {
             Query query = Collection
-                .WhereEqualTo("Username", username);
+                .WhereEqualTo(nameof(User.Username), username);
             QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
 
             if (querySnapshot.Documents.Count == 1)
@@ -66,6 +66,7 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
 
         public async Task CreateLoginActivityAsync(string id, AuthActivity activity)
         {
+            activity.UpdatedAt = DateTime.UtcNow;
             await AuthActivityCollection.AddAsync(activity);
         }
     }

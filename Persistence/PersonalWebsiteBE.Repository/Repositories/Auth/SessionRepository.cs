@@ -18,7 +18,7 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
         public async Task<Session> GetSessionByTokenAsync(string sessionToken)
         {
             Query query = Collection
-                    .WhereEqualTo("SessionToken", sessionToken);
+                    .WhereEqualTo(nameof(Session.SessionToken), sessionToken);
             QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
 
             if (querySnapshot.Documents.Count == 1)
@@ -33,6 +33,26 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
             {
                 return default;
             }
+        }
+
+        public async Task<List<Session>> GetAllSessionsByUserId(string userId)
+        {
+            Query query = Collection
+                    .WhereEqualTo(nameof(Session.UserId), userId);
+            QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+            List<Session> listEntity = new();
+
+            foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
+            {
+                if (documentSnapshot.Exists)
+                {
+                    Session newEntity = documentSnapshot.ConvertTo<Session>();
+                    newEntity.Id = documentSnapshot.Id;
+                    newEntity.CreatedAt = documentSnapshot.CreateTime.Value.ToDateTime();
+                    listEntity.Add(newEntity);
+                }
+            }
+            return listEntity;
         }
     }
 }
