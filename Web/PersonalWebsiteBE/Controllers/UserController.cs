@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalWebsiteBE.Core.Exceptions;
 using PersonalWebsiteBE.Core.Helpers.HelperModels;
@@ -26,20 +27,32 @@ namespace PersonalWebsiteBE.Controllers
 
         [HttpPost]
         [AuthorizationFilter]
-        public async Task<ActionResult> CreateAsync([FromBody] UserResource userResource)
+        public async Task<ActionResult> CreateAsync([FromBody] AuthResource userResource)
         {
             // Convert resource to model
-            var user = mapper.Map<UserResource, User>(userResource);
+            var user = mapper.Map<AuthResource, User>(userResource);
             // Pass through to service
             var authData = await userService.CreateUserAsync(user, GetIp());
             // Return sessin in 200 response
             return Ok(authData);
         }
 
-        [HttpPost("Login")]
-        public async Task<ActionResult> LoginAsync([FromForm] UserResource userResource)
+        [HttpGet]
+        [AuthorizationFilter]
+        public async Task<ActionResult> GetProfileData()
         {
-            var user = mapper.Map<UserResource, User>(userResource);
+            var sessionToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
+            var session = await userService.GetUserBySessionToken(sessionToken);
+            var user = await userService.GetByIdAsync(session.Id);
+            // Map to resource :)
+            var userResource = mapper.Map<User, UserDataResource>(user);
+            return Ok(userResource);
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult> LoginAsync([FromForm] AuthResource userResource)
+        {
+            var user = mapper.Map<AuthResource, User>(userResource);
             AuthData authData;
             try
             {

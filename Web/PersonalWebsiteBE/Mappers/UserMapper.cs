@@ -15,7 +15,8 @@ namespace PersonalWebsiteBE.Mappers
         public UserMapper()
         {
             // Model to resource mapping, and back again
-            CreateMap<UserResource, User>().ReverseMap();
+            CreateMap<AuthResource, User>().ReverseMap();
+            CreateMap<UserDataResource, User>().ReverseMap();
         }
     }
 }
