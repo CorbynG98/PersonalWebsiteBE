@@ -12,6 +12,7 @@ namespace PersonalWebsiteBE.Core.Extensions
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISessionService, SessionService>();
+            services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IMiscService, MiscService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IProjectService, ProjectService>();

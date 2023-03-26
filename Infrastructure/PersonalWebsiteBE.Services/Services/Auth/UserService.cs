@@ -19,12 +19,14 @@ namespace PersonalWebsiteBE.Services.Services.Auth
     {
         private readonly IUserRepository userRepository;
         private readonly ISessionRepository sessionRepository;
+        private readonly IActivityRepository activityRepository;
         private readonly IpApiIntegration ipApiIntegration;
 
-        public UserService(IUserRepository userRepository, ISessionRepository sessionRepository) : base(userRepository)
+        public UserService(IUserRepository userRepository, ISessionRepository sessionRepository, IActivityRepository activityRepository) : base(userRepository)
         {
             this.userRepository = userRepository;
             this.sessionRepository = sessionRepository;
+            this.activityRepository = activityRepository;
             this.ipApiIntegration = new IpApiIntegration();
         }
 
@@ -53,9 +55,8 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             var sessionId = await sessionRepository.CreateOneAsync(session);
 
             // Create activity for this login and put in database
-            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, UserId = userId, SessionId = sessionId, Type = AuthActivityType.Login };
-            await userRepository.CreateLoginActivityAsync(userId, activity);
-
+            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, ExpireAt = DateTime.UtcNow.AddDays(30), UserId = userId, SessionId = sessionId, Type = AuthActivityType.Login };
+            await activityRepository.CreateAuthActivity(activity);
             // Return session token to the controller
             return new AuthData() { SessionToken = sessionToken, Username = newUser.Username };
         }
@@ -106,8 +107,8 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             var sessionId = await sessionRepository.CreateOneAsync(session);
 
             // Create activity for this login and put in database
-            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, UserId = userId, SessionId = sessionId, Type = AuthActivityType.Login };
-            await userRepository.CreateLoginActivityAsync(userId, activity);
+            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, ExpireAt = DateTime.UtcNow.AddDays(30), UserId = userId, SessionId = sessionId, Type = AuthActivityType.Login };
+            await activityRepository.CreateAuthActivity(activity);
 
             // Update last login date
             user.LastLoginAt = DateTime.UtcNow;
@@ -123,37 +124,11 @@ namespace PersonalWebsiteBE.Services.Services.Auth
             if (session == null) return;
 
             // Create activity for this logout and put in database
-            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, UserId = session.UserId, SessionId = session.Id, Type = AuthActivityType.Logout };
-            await userRepository.CreateLoginActivityAsync(session.UserId, activity);
+            var activity = new AuthActivity() { ActionedAt = DateTime.UtcNow, ExpireAt = DateTime.UtcNow.AddDays(30), UserId = session.UserId, SessionId = session.Id, Type = AuthActivityType.Logout };
+            await activityRepository.CreateAuthActivity(activity);
 
             // Delete the session
             await sessionRepository.DeleteOneAsync(session.Id);
-        }
-
-        public async Task<bool> VerifyUserSession(string sessionToken)
-        {
-            // Find session by session token
-            var session = await sessionRepository.GetSessionByTokenAsync(HashData.GetHashString(sessionToken));
-            if (session == null) return false;
-            return true;
-        }
-
-        public async Task<Session> GetSessionByToken(string sessionToken)
-        {
-            // Find session by session token
-            var session = await sessionRepository.GetSessionByTokenAsync(HashData.GetHashString(sessionToken));
-            if (session == null) return null;
-            return session;
-        }
-
-        public async Task<User> GetUserBySessionToken(string sessionToken)
-        {
-            // Find session by session token
-            var session = await sessionRepository.GetSessionByTokenAsync(HashData.GetHashString(sessionToken));
-            if (session == null) return null;
-            var user = await userRepository.GetOneAsync(session.UserId);
-            if (user == null) return null;
-            return user;
         }
 
         public async Task DeleteUserAsync() { 

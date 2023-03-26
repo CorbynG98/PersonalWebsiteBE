@@ -10,7 +10,10 @@ namespace PersonalWebsiteBE.Core.Services.Auth
 {
     public interface ISessionService : IService<Session>
     {
-        Task<List<Session>> GetSessionsForUser(string userId);
+        Task<List<Session>> GetSessionsForUser(string userId, int skip, int limit);
+        Task<bool> VerifyUserSession(string sessionToken);
         Task RevokeSessionById(string sessionId, string userId, string requestingSessionId);
+        Task<User> GetUserBySessionToken(string sessionToken);
+        Task<Session> GetSessionByToken(string sessionToken);
     }
 }

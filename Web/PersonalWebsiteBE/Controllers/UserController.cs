@@ -6,6 +6,7 @@ using PersonalWebsiteBE.Core.Helpers.HelperModels;
 using PersonalWebsiteBE.Core.Models.Auth;
 using PersonalWebsiteBE.Core.Services.Auth;
 using PersonalWebsiteBE.Filters;
+using PersonalWebsiteBE.Services.Services.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,12 @@ namespace PersonalWebsiteBE.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private readonly ISessionService sessionService;
         private readonly IMapper mapper;
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService, ISessionService sessionService, IMapper mapper)
         {
             this.userService = userService;
+            this.sessionService = sessionService;
             this.mapper = mapper;
         }
 
@@ -42,44 +45,11 @@ namespace PersonalWebsiteBE.Controllers
         public async Task<ActionResult> GetProfileData()
         {
             var sessionToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
-            var session = await userService.GetUserBySessionToken(sessionToken);
+            var session = await sessionService.GetUserBySessionToken(sessionToken);
             var user = await userService.GetByIdAsync(session.Id);
             // Map to resource :)
             var userResource = mapper.Map<User, UserDataResource>(user);
             return Ok(userResource);
-        }
-
-        [HttpPost("Login")]
-        public async Task<ActionResult> LoginAsync([FromForm] AuthResource userResource)
-        {
-            var user = mapper.Map<AuthResource, User>(userResource);
-            AuthData authData;
-            try
-            {
-                authData = await userService.LoginUserAsync(user, GetIp());
-            } catch (UserLoginException ex) {
-                return BadRequest(ex.Message);
-            }
-            // Return session in 200 response
-            return Ok(authData);
-        }
-
-        [HttpPost("Logout")]
-        [AuthorizationFilter]
-        public async Task<ActionResult> LogoutAsync()
-        {
-            var sessionToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
-            await userService.LogoutUserAsync(sessionToken);
-            return NoContent();
-        }
-
-        [HttpPost("VerifySession")]
-        public async Task<ActionResult> VerifySession()
-        {
-            var sessionToken = HttpContext.Request.Headers.Authorization.FirstOrDefault();
-            if (sessionToken == null) return Ok(false);
-            var result = await userService.VerifyUserSession(sessionToken);
-            return Ok(result);
         }
 
         private string GetIp()

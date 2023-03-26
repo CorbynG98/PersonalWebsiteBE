@@ -35,10 +35,13 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
             }
         }
 
-        public async Task<List<Session>> GetAllSessionsByUserId(string userId)
+        public async Task<List<Session>> GetAllSessionsByUserId(string userId, int skip, int limit)
         {
             Query query = Collection
-                    .WhereEqualTo(nameof(Session.UserId), userId);
+                    .WhereEqualTo(nameof(Session.UserId), userId)
+                    .OrderByDescending(nameof(Session.UpdatedAt))
+                    .Offset(skip)
+                    .Limit(limit);
             QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
             List<Session> listEntity = new();
 

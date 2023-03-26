@@ -13,17 +13,7 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        private CollectionReference AuthActivityCollection;
-
-        public UserRepository(IFireStoreSettings settings) : base(settings) {
-            if (string.IsNullOrWhiteSpace(settings.Root))
-                AuthActivityCollection = FireStoreDb.Collection(typeof(AuthActivity).ToString().Split('.').LastOrDefault().Trim());
-            else
-            {
-                string collectionName = typeof(AuthActivity).ToString().Split('.').LastOrDefault().Trim();
-                AuthActivityCollection = FireStoreDb.Collection(settings.Root).Document(collectionName).Collection(collectionName);
-            }
-        }
+        public UserRepository(IFireStoreSettings settings) : base(settings) { }
 
         public async Task<User> GetUserByUsernameAndPassword(string username, string password) {
             Query query = Collection
@@ -62,12 +52,6 @@ namespace PersonalWebsiteBE.Repository.Repositories.Auth
             {
                 return default;
             }
-        }
-
-        public async Task CreateLoginActivityAsync(string id, AuthActivity activity)
-        {
-            activity.UpdatedAt = DateTime.UtcNow;
-            await AuthActivityCollection.AddAsync(activity);
         }
     }
 }

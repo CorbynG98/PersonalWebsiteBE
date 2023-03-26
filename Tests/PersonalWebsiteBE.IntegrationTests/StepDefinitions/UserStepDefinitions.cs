@@ -9,7 +9,7 @@ using System.Security.Authentication;
 namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
 {
     [Binding]
-    public sealed class UserStepDefinition
+    public sealed class AuthStepDefinition
     {
 
         private readonly ScenarioContext scenarioContext;
@@ -18,7 +18,7 @@ namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
         // Repositories
         private readonly IUserRepository userRepository;
 
-        public UserStepDefinition(ScenarioContext scenarioContext)
+        public AuthStepDefinition(ScenarioContext scenarioContext)
         {
             this.scenarioContext = scenarioContext;
             // Services
@@ -37,6 +37,21 @@ namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
         public async Task GivenNoExistingUserWithUsername(string username)
         {
             var user = await userRepository.GetByUsernameOnly(username);
+            user.Should().BeNull();
+        }
+
+        [Given("An existing user with Id (.*)")]
+        public async Task GivenAnExistingUserWithId(string userId)
+        {
+            var user = await userRepository.GetOneAsync(userId);
+            user.Should().NotBeNull();
+        }
+
+        [Given("No existing user with Id (.*)")]
+        public async Task GivenNoExistingUserWithId(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId)) return;
+            var user = await userRepository.GetOneAsync(userId);
             user.Should().BeNull();
         }
 
@@ -81,6 +96,11 @@ namespace PersonalWebsiteBE.IntegrationTests.StepDefinitions
             {
                 scenarioContext.Add("authData", null);
             }
+        }
+
+        [When("I logout with sessionToken (.*)")]
+        public async Task WhenILogoutWithSessionToken(string sessionToken) { 
+            await userService.LogoutUserAsync(sessionToken);
         }
 
         [Then("AuthData should not be null")]

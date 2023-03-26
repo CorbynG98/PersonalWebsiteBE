@@ -19,6 +19,8 @@ namespace PersonalWebsiteBE.IntegrationTests
             var FireStoreDb = FirestoreDb.Create(gcpProjectId);
             // Run create calls on each data set.
             await FireStoreDb.CreateData<User>(UserData.Value, rawDbPrefix);
+            await FireStoreDb.CreateData<Session>(SessionData.Value, rawDbPrefix);
+            await FireStoreDb.CreateData<AuthActivity>(ActivityData.Value, rawDbPrefix);
         }
 
         public static async Task CreateData<T>(this FirestoreDb FireStoreDb, string data, string rawDbPrefix) where T : IDocument {

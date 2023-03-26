@@ -17,6 +17,7 @@ namespace PersonalWebsiteBE.Core.Helpers.Security
 
         public static string GetHashString(string inputString)
         {
+            if (string.IsNullOrWhiteSpace(inputString)) return inputString;
             StringBuilder sb = new();
             foreach (byte b in GetHash(inputString))
                 sb.Append(b.ToString("X2"));

@@ -12,6 +12,7 @@ namespace PersonalWebsiteBE.Core.Extensions
         {
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(ISessionRepository), typeof(SessionRepository));
+            services.AddScoped(typeof(IActivityRepository), typeof(ActivityRepository));
             services.AddScoped(typeof(IMiscRepository), typeof(MiscRepository));
             services.AddScoped(typeof(IEmailRepository), typeof(EmailRepository));
             services.AddScoped(typeof(IProjectRepository), typeof(ProjectRepository));

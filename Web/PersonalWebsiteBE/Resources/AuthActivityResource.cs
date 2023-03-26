@@ -8,18 +8,11 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Models.Auth
 {
-    [FirestoreData]
-    public class AuthActivity : Document
+    public class AuthActivityResource
     {
-        [FirestoreProperty]
         public AuthActivityType Type { get; set; }
-        [FirestoreProperty]
         public string UserId { get; set; }
-        [FirestoreProperty]
         public string SessionId { get; set; }
-        [FirestoreProperty]
         public DateTime? ActionedAt { get; set; }
-        [FirestoreProperty]
-        public DateTime ExpireAt { get; set; }
     }
 }

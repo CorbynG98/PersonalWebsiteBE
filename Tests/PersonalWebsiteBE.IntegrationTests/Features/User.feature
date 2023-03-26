@@ -1,5 +1,5 @@
 ﻿Feature: User
-As a user I want to be able to manage my session
+As a user I want to authenticate to the API, and manage my data
 
 Scenario: Logging in with valid credentials
 	Given An existing user with username <username>
@@ -51,3 +51,20 @@ Scenario: Logging in with no password and a valid username
 	Examples:
 		| username  |
 		| CorbynG98 |
+
+Scenario: Logging out with a valid session token
+	Given An existing session with sessionToken as <sessionToken>
+	When I logout with sessionToken <sessionToken>
+	Then No existing session with sessionToken as <sessionToken>
+	Examples:
+		| sessionToken                                                     |
+		| DC10F6CB77B5962456E553E1334BFA309DC1E80DAEF543017577C28172BD9653 |
+
+Scenario: Logging out with a invalid session token
+	Given No existing session with sessionToken as <sessionToken>
+	When I logout with sessionToken <sessionToken>
+	Then No existing session with sessionToken as <sessionToken>
+	Examples:
+		| sessionToken        |
+		| invalidSessionToken |
+		|                     |

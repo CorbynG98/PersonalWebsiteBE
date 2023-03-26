@@ -16,7 +16,7 @@ namespace PersonalWebsiteBE.Filters
     {
         public async Task OnAuthorizationAsync(AuthorizationFilterContext actionContext)
         {
-            var userService = (IUserService)actionContext.HttpContext.RequestServices.GetService(typeof(IUserService));
+            var sessionService = (ISessionService)actionContext.HttpContext.RequestServices.GetService(typeof(ISessionService));
             // Try get the session token from header of request
             var sessionToken = actionContext.HttpContext.Request.Headers.Authorization.FirstOrDefault();
             if (String.IsNullOrWhiteSpace(sessionToken))
@@ -25,7 +25,7 @@ namespace PersonalWebsiteBE.Filters
                 return;
             }
             // Pass this token through to firestore query to check if it exists. Return true if it does exist
-            if (!await userService.VerifyUserSession(sessionToken)) {
+            if (!await sessionService.VerifyUserSession(sessionToken)) {
                 actionContext.Result = new Core.StatusResults.ForbiddenResult();
                 return;
             }

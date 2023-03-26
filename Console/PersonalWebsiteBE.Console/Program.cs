@@ -25,6 +25,8 @@ public class Program
         // ========================================
         // ========================================
 
+        var result = await serviceProvider.GetDocumentsInCollectionJSONAsync<AuthActivity>(limit: 5);
+
         Console.WriteLine("Not Corbyn's Terminal");
         Console.WriteLine("Done... [hit any key to close]");
         Console.ReadKey();

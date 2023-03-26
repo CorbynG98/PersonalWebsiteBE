@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PersonalWebsiteBE.Core.Repositories.Auth
 {
-    public interface ISessionRepository : IRepository<Session>
+    public interface IActivityRepository : IRepository<AuthActivity>
     {
-        Task<Session> GetSessionByTokenAsync(string sessionToken);
-        Task<List<Session>> GetAllSessionsByUserId(string userId, int skip, int limit);
+        Task<List<AuthActivity>> GetAllActivitiesByUserId(string userId, int skip, int limit);
+        Task CreateAuthActivity(AuthActivity activity);
     }
 }
