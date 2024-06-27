@@ -55,12 +55,6 @@ jobs:
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator -reports:"./Tests/PersonalWebsiteBE.IntegrationTests/TestResults/**/coverage.cobertura.xml" -targetdir:"./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage" -reporttypes:Html_Dark
 
-    - name: Publish Test Results
-      uses: actions/upload-artifact@v3
-      with:
-        name: Specflow Living Doc - ${{ github.run_id }}
-        path: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/index.html
-
     - name: Publish Coverage Results
       uses: actions/upload-artifact@v3
       with:
@@ -76,7 +70,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages
+        publish_dir: ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage
 
   build:
     name: Build Docker Image
