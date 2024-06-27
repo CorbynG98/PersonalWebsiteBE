@@ -64,7 +64,7 @@ jobs:
     - name: Copy CNAME Into Deploy Folder
       shell: bash
       run: |
-        cp ./Tests/PersonalWebsiteBE.IntegrationTests/CNAME ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/CNAME
+        cp ./Tests/PersonalWebsiteBE.IntegrationTests/CNAME ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/coverage/CNAME
 
     - name: Deploy To Github Pages
       uses: peaceiris/actions-gh-pages@v3
