@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PersonalWebsiteBE.Core.Models.Auth;
 using PersonalWebsiteBE.Core.Settings;
+using Reqnroll;
 
 namespace PersonalWebsiteBE.IntegrationTests.Hooks
 {
