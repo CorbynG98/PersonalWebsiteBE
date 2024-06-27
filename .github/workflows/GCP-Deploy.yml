@@ -50,11 +50,6 @@ jobs:
     - name: Run tests
       run: dotnet test ./Tests/PersonalWebsiteBE.IntegrationTests --no-restore --collect:"XPlat Code Coverage" --configuration:"Test"
 
-    - name: Generate Livingdoc
-      run: |
-        dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
-        livingdoc test-assembly $PROJECTBUILDDIR/PersonalWebsiteBE.IntegrationTests.dll -t $PROJECTBUILDDIR/TestExecution.json -o ./Tests/PersonalWebsiteBE.IntegrationTests/Actions/pages/index.html
-
     - name: Generate Coverage Report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
